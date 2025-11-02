@@ -1,26 +1,14 @@
-<style>
-@keyframes animate-gradient {
-  to {
-    background-position: -200%;
-  }
-}
-</style>
+<div align="center">
 
-<h1 style="font-size: 4rem; font-weight: 900; color: rgb(19, 8, 4); text-align: center; text-transform:uppercase; margin:0;">Capy Clicker</h1>
+# CAPY CLICKER
 
-<section style="display:flex; flex-direction:column; align-items:center; gap:8px;">
-  <div>
-    <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
-    <img src="https://img.shields.io/badge/maintenance-experimental-blue.svg" alt="maintenance-status">
-    <img src="https://img.shields.io/badge/version-1.0.0-blue" alt="Version">
-  </div>
-  <div>
-    <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white" alt="HTML5">
-    <img src="https://img.shields.io/badge/CSS-563d7c?&style=flat&logo=css3&logoColor=white" alt="CSS">
-    <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black" alt="JavaScript">
-  </div>
-  <a href="https://discord.gg/R7ZzJtjj"><img src="https://img.shields.io/badge/Discord-5865F2?style=flat&logo=discord&logoColor=white" alt="Eterno éter branco"></a>
-</section>
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![maintenance](https://img.shields.io/badge/maintenance-experimental-blue.svg)](https://github.com/VonLuqi/capy-clicker) [![version](https://img.shields.io/badge/version-1.0.0-blue)](https://github.com/VonLuqi/capy-clicker)
+
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML) [![CSS](https://img.shields.io/badge/CSS-563d7c?&style=flat&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS) [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+
+[![Discord](https://img.shields.io/badge/Discord-5865F2?style=flat&logo=discord&logoColor=white)](https://discord.gg/R7ZzJtjj)
+
+</div>
 
 ## Sobre o Capy Clicker
 
@@ -52,10 +40,16 @@
 - CSS3 (com variáveis CSS e animações)
 - JavaScript Vanilla
 
-## Link para Jogar
+## 🎮 Link para Jogar
 
-🎮 [Capy Clicker](https://capy-clicker.vercel.app/)
+**[▶️ Jogar Capy Clicker](https://capy-clicker.vercel.app/)**
 
-## Desenvolvedor
+---
 
-Desenvolvido por <span style="text-transform:uppercase; font-weight:900; background:linear-gradient(to right, #AE8625 0%, #F7EF8A 40%, #D2AC47 80%, #EDC967 90%, #AE8625 100%); background-size: 200%; background-clip: text; -webkit-background-clip: text; color:transparent; animation: animate-gradient 4s linear infinite;">luqi ✨</span>
+<div align="center">
+
+### Desenvolvido por **LUQI** ✨
+
+[![GitHub](https://img.shields.io/badge/GitHub-VonLuqi-181717?style=flat&logo=github)](https://github.com/VonLuqi)
+
+</div>
