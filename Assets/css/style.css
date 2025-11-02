@@ -71,6 +71,18 @@ main .board .capivarias_container img
   width: 25px;
   aspect-ratio: 1;
   object-fit: contain;
+
+  animation: capivariasAnim 300ms ease 1;
+}
+
+@keyframes capivariasAnim {
+  from {
+    transform: scale(0.8) translateY(5px);
+  }
+
+  to {
+    transform: scale(1) translateY(0);
+  }
 }
 
 main .upgrade

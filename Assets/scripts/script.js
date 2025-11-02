@@ -10,6 +10,7 @@ const gramado = document.querySelector('.capivarias_container')
 let clickValue = 1
 
 let qnt = 0
+let totalCapysAll = qnt
 let first = true
 
 let capivarasPorSegundo = 0
@@ -41,6 +42,7 @@ document.addEventListener('contextmenu', function(evento) {
 
 capy.addEventListener('click', () => {
   qnt += clickValue
+  totalCapysAll += clickValue
   console.log(clickValue)
   atualizarContadorCapy()
   
@@ -132,6 +134,7 @@ vezesBuy.addEventListener('change', () => {
 setInterval(function() {
   if (capivarasPorSegundo > 0) {
     qnt += capivarasPorSegundo / 10
+    totalCapysAll += capivarasPorSegundo / 10
     atualizarContadorCapy()
   }
 }, 1000)
