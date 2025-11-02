@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Capy CLicker</title>
+
+  <script src="./Assets/scripts/script.js" defer></script>
+
+  <link rel="stylesheet" href="./Assets/css/_reset.css">
+  <link rel="stylesheet" href="./Assets/css/default.css">
+  <link rel="stylesheet" href="./Assets/css/style.css">
+</head>
+<body>
+  <header></header>
+  <aside>
+    <p class="action">clique para algo acontecer</p>
+    <img src="./Assets/images/capy.jpg" alt="" class="capy" draggable="false">
+    <p class="qntCapy">0</p>
+    <p class="capyPerSecond">0 capy/s</p>
+  </aside>
+  <main>
+    <section class="board">
+      <section class="capivarias_container">
+
+      </section>
+    </section>
+    <section class="upgrade">
+      <select name="vezes" id="vezes">
+        <option value="1" selected>x1</option>
+        <option value="10">x10</option>
+        <option value="100">x100</option>
+      </select>
+      <div class="upgrade_card" id="capivarias" data-price="">
+        <img src="./Assets/images/capyvarias.jpg" alt="" draggable="false">
+      </div>
+      <div class="upgrade_card" id="clickUp" data-price="">
+        <img src="./Assets/images/click.webp" alt="" draggable="false">
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>Desenvolvido por <span>Luqi</span></p>
+  </footer>
+</body>
+</html>

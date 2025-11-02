@@ -1,0 +1,64 @@
+:root
+{
+  --gap: 8px;
+
+  --black: rgb(19, 8, 4);
+  --white: rgb(255, 241, 229);
+
+  --column: 250px
+}
+
+html
+{
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+body
+{
+  display: grid;
+
+  grid-template-columns: var(--column) 1fr;
+  grid-template-rows: 35px 1fr 25px;
+
+  grid-template-areas: 
+    "header header"
+    "aside main"
+    "footer footer";
+}
+
+header
+{
+  grid-area: header;
+}
+
+aside
+{
+  grid-area: aside;
+}
+
+main
+{
+  grid-area: main;
+
+  display: grid;
+  grid-template-columns: 1fr var(--column);
+
+  grid-template-areas: 
+    "board upgrade";
+}
+
+main .board
+{
+  grid-area: board;
+}
+
+main .upgrade
+{
+  grid-area: upgrade;
+}
+
+footer
+{
+  grid-area: footer;
+}
