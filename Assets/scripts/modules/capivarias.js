@@ -3,6 +3,7 @@ export class CapivariasManager {
     this.config = config
     this.container = document.querySelector('.capivarias_container')
     this.count = 0
+    this.capivarias = []
   }
 
   addCapivaria() {
@@ -38,7 +39,33 @@ export class CapivariasManager {
       novaCapy.src = images[images.length - 1]
     }
 
+    const capyData = {
+      x: x,
+      y: y,
+      imgSrc: novaCapy.src,
+      isShiny: shinyRoll === 0,
+      isGold: goldRoll === 0
+    }
+
+    this.capivarias.push(capyData)
+
     this.container.appendChild(novaCapy)
+    this.count++
+  }
+
+  restoreCapivaria(capyData) {
+    const novaCapy = document.createElement('img')
+    novaCapy.src = capyData.imgSrc
+    novaCapy.draggable = false
+    novaCapy.style.top = `${capyData.y}px`
+    novaCapy.style.left = `${capyData.x}px`
+
+    if (capyData.isShiny) {
+      novaCapy.style.filter = 'invert()'
+    }
+
+    this.container.appendChild(novaCapy)
+    this.capivarias.push(capyData)
     this.count++
   }
 

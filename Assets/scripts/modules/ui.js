@@ -9,6 +9,8 @@ export class UI {
   }
 
   updateCapyCount(count) {
+    if (isNaN(count)) count = 0
+    
     const displayCount = Math.floor(count)
     const text = displayCount >= 1000000 
     ? displayCount.toExponential(2) 
@@ -18,6 +20,8 @@ export class UI {
   }
 
   updateUpgradePrice(upgradeId, price) {
+    if (isNaN(price)) price = 0
+    
     const upgradeElement = document.querySelector(`#${upgradeId}`)
     const displayPrice = Math.floor(price)
 
@@ -27,6 +31,8 @@ export class UI {
   }
 
   updateCapyPerSecond(cps) {
+    if (isNaN(cps)) cps = 0
+    
     this.elements.capyPerSec.textContent = `${cps / 10} capy/s`
   }
 
