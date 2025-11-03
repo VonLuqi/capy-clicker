@@ -15,6 +15,25 @@
       "effect": "capy_power"
     }
   ],
+  "feeds": [
+    {
+    "id": "feed_production_001",
+    "name": "Capivárias Turbinadas",
+    "description": "Aumenta a produção das capivárias em 50%",
+    "basePrice": 250,
+    "effect": {
+      "type": "production_multiplier",
+      "value": 1.5
+    },
+    "image": "./Assets/images/feeds/01.webp",
+    "requirements": {
+      "minCapyCount": 100,
+      "qntCapivarias": 10,
+      "qntClickUpgrade": 0,
+      "feedsPurchased": []
+    }
+    }
+  ],
   "capivarias": {
     "size": 25,
     "spacing": 20,
