@@ -1,0 +1,32 @@
+{
+  "upgrades": [
+    {
+      "id": "capivarias",
+      "name": "Capivarias",
+      "basePrice": 10,
+      "priceMultiplier": 1.1,
+      "effect": "capy_per_second"
+    },
+    {
+      "id": "clickUp",
+      "name": "Click upgrade",
+      "basePrice": 100,
+      "priceMultiplier": 2,
+      "effect": "capy_power"
+    }
+  ],
+  "capivarias": {
+    "size": 25,
+    "spacing": 20,
+    "rows": 9,
+    "images": [
+      "./Assets/images/capivarias/01.png",
+      "./Assets/images/capivarias/02.png",
+      "./Assets/images/capivarias/03.png",
+      "./Assets/images/capivarias/04.png",
+      "./Assets/images/capivarias/gold.png"
+    ],
+    "shinyChance": 50,
+    "goldChance": 1000
+  }
+}
