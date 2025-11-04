@@ -5,7 +5,7 @@ import { CapivariasManager } from './modules/capivarias.js'
 import { FeedsManager } from './modules/feeds.js'
 
 async function init() {
-  // Para resetar o save, descomente a linha abaixo e recarregue (F5)
+  // Para resetar o save, descomente e comente novamente a linha abaixo
   // localStorage.removeItem('capySave'); location.reload()
 
   const response = await fetch('./Assets/scripts/data/config.json')
@@ -144,7 +144,13 @@ async function init() {
 
       if (isPurchased) {
         feedCard.classList.add('purchased')
-      } else if (!isUnlocked) {
+        feedCard.style.display = 'none'
+        return
+      } else {
+        feedCard.style.removeProperty('display')
+      }
+
+      if (!isUnlocked) {
         feedCard.classList.add('locked')
       } else if (canBuy.canBuy) {
         feedCard.classList.add('available')
@@ -168,6 +174,8 @@ async function init() {
 
       ui.updateCapyCount(game.capyCount)
       ui.updateCapyPerSecond(game.capyPerSecond, game.capyPerSecModPercent, game.capyPerSecModSum)
+
+      saveProgress()
 
       const feedCard = document.getElementById(feedId)
       if (feedCard) {
@@ -237,6 +245,7 @@ async function init() {
       ui.updateCapyCount(game.capyCount)
       ui.updateCapyPerSecond(game.capyPerSecond, game.capyPerSecModPercent, game.capyPerSecModSum)
       ui.updateUpgradePrice('capivarias', upgradeManager.prices[0])
+      saveProgress()
     }
   })
 
@@ -250,6 +259,7 @@ async function init() {
 
       ui.updateCapyCount(game.capyCount)
       ui.updateUpgradePrice('clickUp', upgradeManager.prices[1])
+      saveProgress()
     }
   })
 
