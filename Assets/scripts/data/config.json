@@ -98,6 +98,23 @@
       "qntClickUpgrade": 0,
       "feedsPurchased": ["feed_production_002"]
     }
+    },
+    {
+    "id": "feed_click_004",
+    "name": "",
+    "description": "",
+    "basePrice": 600,
+    "effect": {
+      "type": "production_sum",
+      "value": 10
+    },
+    "image": "./Assets/images/feeds/01.webp",
+    "requirements": {
+      "minCapyCount": 200,
+      "qntCapivarias": 50,
+      "qntClickUpgrade": 0,
+      "feedsPurchased": ["feed_production_001"]
+    }
     }
   ],
   "capivarias": {
