@@ -2,8 +2,10 @@
 {
   --gap: 8px;
 
-  --black: rgb(19, 8, 4);
+  --black: rgb(43, 18, 9);
   --white: rgb(255, 241, 229);
+
+  --primary: rgb(90, 43, 23);
 
   --column: 250px
 }

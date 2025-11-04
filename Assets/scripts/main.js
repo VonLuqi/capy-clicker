@@ -5,6 +5,9 @@ import { CapivariasManager } from './modules/capivarias.js'
 import { FeedsManager } from './modules/feeds.js'
 
 async function init() {
+  // Para resetar o save, descomente a linha abaixo e recarregue (F5)
+  // localStorage.removeItem('capySave'); location.reload()
+
   const response = await fetch('./Assets/scripts/data/config.json')
   const config = await response.json()
 
@@ -25,6 +28,11 @@ async function init() {
     }
   }
 
+  let feedsUnlocked = []
+  if (saveData && saveData.feedsUnlocked) {
+    feedsUnlocked = saveData.feedsUnlocked
+  }
+
   const game = new Game(config)
   const upgradeManager = new UpgradeManager(config.upgrades)
   const ui = new UI()
@@ -37,7 +45,19 @@ async function init() {
 
   if (saveData) {
     game.capyCount = saveData.capyCount
+    game.capyPerSecModPercent = Number.isFinite(saveData?.capyPerSecModPercent)
+    ? saveData.capyPerSecModPercent
+    : 1
+    game.capyPerSecModSum = Number.isFinite(saveData?.capyPerSecModSum)
+    ? saveData.capyPerSecModSum
+    : 0
     game.clickValue = saveData.clickValue
+    game.clickModPercent = Number.isFinite(saveData?.clickModPercent)
+    ? saveData.clickModPercent
+    : 1
+    game.clickModSum = Number.isFinite(saveData?.clickModSum)
+    ? saveData.clickModSum
+    : 0
     game.capyPerSecond = saveData.capyPerSecond
     upgradeManager.prices = saveData.upgrades
 
@@ -50,16 +70,146 @@ async function init() {
       saveData.capivarias.forEach(capyData => {
         capivariasManager.restoreCapivaria(capyData)
       })
+
+      const baseProduction = capivariasManager.capivarias.length
+      const bonus = capivariasManager.calculateTotalBonus()
+      game.capyPerSecond = baseProduction + bonus
+    }
+
+    if (saveData.feedsPurchased) {
+      feedsManager.purchased = saveData.feedsPurchased
+    }
+
+    if (saveData.upgradesOwned) {
+      game.upgradesOwned = saveData.upgradesOwned
     }
   }
 
   ui.updateCapyCount(game.capyCount)
-  ui.updateCapyPerSecond(game.capyPerSecond)
+  ui.updateCapyPerSecond(game.capyPerSecond, game.capyPerSecModPercent, game.capyPerSecModSum)
   ui.updateUpgradePrice('capivarias', upgradeManager.prices[0])
   ui.updateUpgradePrice('clickUp', upgradeManager.prices[1])
   ui.updateActionText(currentActionText)
 
   saveProgress()
+
+  function createFeedCards() {
+    const container = document.querySelector('.feeds_container')
+    container.innerHTML = ''
+
+    feedsManager.getAllFeeds().forEach(feed => {
+      const feedCard = document.createElement('div')
+      feedCard.className = 'feed_card'
+      feedCard.id = feed.id
+      feedCard.dataset.price = feed.basePrice.toString()
+
+      const img = document.createElement('img')
+      img.src = feed.image
+      img.alt = feed.name
+      img.draggable = false
+
+      const name = document.createElement('p')
+      name.className = 'feed_name'
+      name.textContent = feed.name
+
+      const desc = document.createElement('p')
+      desc.className = 'feed_desc'
+      desc.textContent = feed.description
+
+      feedCard.appendChild(img)
+      feedCard.appendChild(name)
+      feedCard.appendChild(desc)
+      container.appendChild(feedCard)
+
+      feedCard.addEventListener('click', () => {
+        handleFeedPurchase(feed.id)
+      })
+    })
+  }
+
+  createFeedCards()
+
+  function updateFeedsUI() {
+    const gameState = game.getGameState()
+
+    feedsManager.getAllFeeds().forEach(feed => {
+      const feedCard = document.querySelector(`#${feed.id}`)
+      if (!feedCard) return
+
+      const isUnlocked = feedsManager.isUnlocked(feed.id, gameState, feedsUnlocked)
+      const isPurchased = feedsManager.isPurchased(feed.id)
+      const canBuy = feedsManager.canBuy(feed.id, gameState, feedsUnlocked)
+
+      feedCard.classList.remove('locked', 'purchased', 'available', 'cannot-afford')
+
+      if (isPurchased) {
+        feedCard.classList.add('purchased')
+      } else if (!isUnlocked) {
+        feedCard.classList.add('locked')
+      } else if (canBuy.canBuy) {
+        feedCard.classList.add('available')
+      } else {
+        feedCard.classList.add('cannot-afford')
+      }
+    })
+  }
+
+  updateFeedsUI()
+
+  function handleFeedPurchase(feedId) {
+    const gameState = game.getGameState()
+    
+    const result = feedsManager.buyFeed(feedId, gameState, feedsUnlocked)
+
+    if (result.success) {
+      game.capyCount -= result.cost
+
+      applyFeedEffect(result.effect)
+
+      ui.updateCapyCount(game.capyCount)
+      ui.updateCapyPerSecond(game.capyPerSecond, game.capyPerSecModPercent, game.capyPerSecModSum)
+
+      const feedCard = document.getElementById(feedId)
+      if (feedCard) {
+        feedCard.classList.add('fade-out')
+
+        feedCard.addEventListener('animationend', () => {
+          feedCard.style.display = 'none'
+        }, { once: true })
+      }
+    } else {
+      console.log('Não foi possível comprar:', result.reason)
+    }
+  }
+
+  function applyFeedEffect(effect) {
+    switch (effect.type) {
+      case 'production_multiplier':
+        const multProd = effect.value <= 1
+        ? 1 + effect.value
+        : effect.value
+        game.capyPerSecModPercent *= multProd
+        break
+
+      case 'production_sum':
+        game.capyPerSecModSum += effect.value
+        break
+
+      case 'click_multiplier':
+        const multClick = effect.value <= 1
+        ? 1 + effect.value
+        : effect.value
+        game.clickModPercent *= multClick
+        break
+
+      case 'click_sum':
+        game.clickModSum += effect.value
+        break
+
+      default:
+        console.warn('Efeito desconhecido:', effect.type)
+    }
+  }
 
   document.querySelector('.capy').addEventListener('click', () => {
     game.click()
@@ -77,14 +227,15 @@ async function init() {
 
     if (result.success) {
       game.capyCount -= result.cost
-      game.capyPerSecond += multBuy
+      game.addUpgrade('capivarias', multBuy)
 
       for (let i = 0; i < multBuy; i++) {
-        capivariasManager.addCapivaria()
+        const productionValue = capivariasManager.addCapivaria()
+        game.capyPerSecond += productionValue
       }
 
       ui.updateCapyCount(game.capyCount)
-      ui.updateCapyPerSecond(game.capyPerSecond)
+      ui.updateCapyPerSecond(game.capyPerSecond, game.capyPerSecModPercent, game.capyPerSecModSum)
       ui.updateUpgradePrice('capivarias', upgradeManager.prices[0])
     }
   })
@@ -95,6 +246,7 @@ async function init() {
     if (result.success) {
       game.capyCount -= result.cost
       game.clickValue += multBuy
+      game.addUpgrade('clickUp', multBuy)
 
       ui.updateCapyCount(game.capyCount)
       ui.updateUpgradePrice('clickUp', upgradeManager.prices[1])
@@ -116,16 +268,25 @@ async function init() {
       game.update()
       ui.updateCapyCount(game.capyCount)
     }
+
+    updateFeedsUI()
   }, 1000)
-  
+
   function saveProgress() {
     localStorage.setItem('capySave', JSON.stringify({
       capyCount: game.capyCount,
       clickValue: game.clickValue,
+      clickModPercent: game.clickModPercent,
+      clickModSum: game.clickModSum,
       capyPerSecond: game.capyPerSecond,
+      capyPerSecModPercent: game.capyPerSecModPercent,
+      capyPerSecModSum: game.capyPerSecModSum,
       upgrades: upgradeManager.prices,
       capivarias: capivariasManager.capivarias,
-      actionText: currentActionText
+      actionText: currentActionText,
+      feedsPurchased: feedsManager.purchased,
+      upgradesOwned: game.upgradesOwned,
+      feedsUnlocked: feedsUnlocked
     }))
   }
 

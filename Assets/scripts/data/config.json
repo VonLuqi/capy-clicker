@@ -1,4 +1,5 @@
 {
+  "valuePerClick": 1,
   "upgrades": [
     {
       "id": "capivarias",
@@ -23,7 +24,7 @@
     "basePrice": 250,
     "effect": {
       "type": "production_multiplier",
-      "value": 1.5
+      "value": 0.5
     },
     "image": "./Assets/images/feeds/01.webp",
     "requirements": {
@@ -31,6 +32,23 @@
       "qntCapivarias": 10,
       "qntClickUpgrade": 0,
       "feedsPurchased": []
+    }
+    },
+    {
+    "id": "feed_click_001",
+    "name": "Click Turbinado",
+    "description": "Aumenta o poder de click em 50%",
+    "basePrice": 250,
+    "effect": {
+      "type": "click_multiplier",
+      "value": 0.5
+    },
+    "image": "./Assets/images/feeds/01.webp",
+    "requirements": {
+      "minCapyCount": 0,
+      "qntCapivarias": 0,
+      "qntClickUpgrade": 1,
+      "feedsPurchased": ["feed_production_001"]
     }
     }
   ],
@@ -46,6 +64,8 @@
       "./Assets/images/capivarias/gold.png"
     ],
     "shinyChance": 50,
-    "goldChance": 1000
+    "goldChance": 1000,
+    "shinyBonus": 1,
+    "goldBonus": 10
   }
 }

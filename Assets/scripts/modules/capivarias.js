@@ -51,6 +51,16 @@ export class CapivariasManager {
 
     this.container.appendChild(novaCapy)
     this.count++
+
+    let productionValue = 1
+    if (capyData.isShiny) {
+      productionValue += this.config.shinyBonus
+    }
+    if (capyData.isGold) {
+      productionValue += this.config.goldBonus
+    }
+
+    return productionValue
   }
 
   restoreCapivaria(capyData) {
@@ -67,6 +77,21 @@ export class CapivariasManager {
     this.container.appendChild(novaCapy)
     this.capivarias.push(capyData)
     this.count++
+  }
+
+  calculateTotalBonus() {
+    let totalBonus = 0
+
+    this.capivarias.forEach(capy => {
+      if (capy.isShiny) {
+        totalBonus += this.config.shinyBonus
+      }
+      if (capy.isGold) {
+        totalBonus += this.config.goldBonus
+      }
+    })
+
+    return totalBonus
   }
 
   getRandomInt(min, max) {

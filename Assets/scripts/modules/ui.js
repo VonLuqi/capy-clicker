@@ -1,3 +1,5 @@
+import { Game } from "./game.js"
+
 export class UI {
   constructor() {
     this.elements = {
@@ -30,10 +32,17 @@ export class UI {
     : `${displayPrice} capys`
   }
 
-  updateCapyPerSecond(cps) {
+  updateCapyPerSecond(cps, modPercent, modSum) {
     if (isNaN(cps)) cps = 0
+    if (isNaN(modPercent)) modPercent = 1
+    if (isNaN(modSum)) modSum = 0
     
-    this.elements.capyPerSec.textContent = `${cps / 10} capy/s`
+    const totalCps = (cps / 10 + modSum) * modPercent
+    const displayCps = totalCps >= 1000000 
+      ? totalCps.toExponential(2) 
+      : totalCps.toFixed(1)
+    
+    this.elements.capyPerSec.textContent = `${displayCps} capy/s`
   }
 
   updateActionText(text) {

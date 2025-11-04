@@ -97,6 +97,175 @@ main .upgrade
   padding-block: calc(var(--gap) * 2);
 }
 
+main .upgrade .feeds_container
+{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, calc((var(--column) - var(--gap) * 5) / 4));
+  gap: var(--gap);
+
+  margin-bottom: var(--gap);
+}
+
+main .upgrade .feeds_container > img
+{
+  display: none;
+}
+
+.feed_card
+{
+  background: var(--white);
+  border-radius: var(--gap);
+  padding: calc(var(--gap) * 1.5);
+
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--gap) * 0.75);
+
+  cursor: pointer;
+  transition: all 300ms ease;
+
+  border: 3px solid var(--primary);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  position: relative;
+  overflow: hidden;
+}
+
+.feed_card img
+{
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: calc(var(--gap) * 0.5);
+
+  transition: transform 300ms ease;
+}
+
+.feed_card .feed_name
+{
+  display: none;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--black);
+  text-align: center;
+}
+
+.feed_card .feed_desc
+{
+  display: none;
+  font-size: 0,75rem;
+  color: #666;
+  text-align: center;
+  line-height: 1.3;
+  min-height: 2.6em;
+}
+
+.feed_card::before {
+  content: attr(data-price);
+
+  opacity: 0;
+  
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  background: hsl(from var(--black) h s l / 0.5);
+  color: var(--white);
+  
+  font-size: 0.75rem;
+  font-weight: 600;
+  
+  z-index: 2;
+  transition: all 300ms ease;
+}
+
+.feed_card:hover::before
+{
+  opacity: 1;
+}
+
+.feed_card.locked
+{
+  display: none;
+}
+
+.feed_card.available {
+  border-color: #4CAF50;
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.4);
+}
+
+.feed_card.available:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(76, 175, 80, 0.6);
+}
+
+.feed_card.available:hover img {
+  transform: scale(1.1) rotate(2deg);
+}
+
+.feed_card.available::before {
+  background: #4CAF50;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
+  }
+}
+
+.feed_card.cannot-afford {
+  opacity: 0.7;
+  filter: grayscale(1);
+}
+
+.feed_card.cannot-afford:hover {
+  transform: scale(0.98);
+}
+
+@keyframes feedFadeOut {
+  to 
+  {
+    opacity: 0;
+    transform: scale(0)
+  }
+}
+
+.feed_card.fade-out
+{
+  animation: feedFadeOut 500ms forwards;
+}
+
+.feed_card {
+  animation: feedCardEnter 500ms ease backwards;
+}
+
+@keyframes feedCardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.feed_card:nth-child(1) { animation-delay: 0ms; }
+.feed_card:nth-child(2) { animation-delay: 100ms; }
+.feed_card:nth-child(3) { animation-delay: 200ms; }
+.feed_card:nth-child(4) { animation-delay: 300ms; }
+.feed_card:nth-child(5) { animation-delay: 400ms; }
+
 main .upgrade select
 {
   width: fit-content;
