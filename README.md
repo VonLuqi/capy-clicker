@@ -2,7 +2,7 @@
 
 # CAPY CLICKER
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![maintenance](https://img.shields.io/badge/maintenance-experimental-blue.svg)](https://github.com/VonLuqi/capy-clicker) [![version](https://img.shields.io/badge/version-1.0.0-blue)](https://github.com/VonLuqi/capy-clicker)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![maintenance](https://img.shields.io/badge/maintenance-active-green.svg)](https://github.com/VonLuqi/capy-clicker) [![version](https://img.shields.io/badge/version-1.1.0-blue)](https://github.com/VonLuqi/capy-clicker)
 
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML) [![CSS](https://img.shields.io/badge/CSS-563d7c?&style=flat&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS) [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
@@ -21,11 +21,11 @@
   - **Capivarias**: Gera capivaras automaticamente ao longo do tempo (capy/s)
   - **Upgrade de Clique**: Aumenta a quantidade de capivaras ganhas por clique
 - **Feeds (NOVO)**: Poderosos itens únicos que desbloqueiam com requisitos e aplicam efeitos especiais permanentes após a compra
-- **Compra em Lote**: Compre melhorias de uma vez em quantidades de x1, x10 ou x100
+- **Compra em Lote**: Compre melhorias de uma vez em quantidades de x1, x10 ou x100 (preferência persistida entre sessões)
 - **Sistema de Gramado**: Visualize suas capivaras aparecendo em um gramado conforme você compra capivarias
 - **Capivaras Especiais**: Chance de aparecer capivaras brilhantes (invertidas) ou douradas raras!
 - **Sistema de Preços Progressivos**: Os preços aumentam conforme você compra mais melhorias
-- **Auto‑save**: Salvamento automático a cada 1s e recuperação defensiva de save corrompido
+- **Auto‑save**: Salvamento automático a cada 1s + salvamento imediato após compras para garantir persistência
 
 ## Como Jogar
 
@@ -48,10 +48,10 @@ Os Feeds são cartões únicos que aparecem na coluna da direita quando você cu
   - `requirements`: condições para desbloquear o cartão
   - `effect`: o efeito aplicado ao jogo quando comprado
 - Estados visuais do card:
-  - `locked` (cinza): requisitos ainda não cumpridos
+  - `locked` (invisível): requisitos ainda não cumpridos
   - `available` (destacado): requisitos cumpridos e você tem capys suficientes
   - `cannot-afford` (visível, mas sem saldo): requisitos ok, falta dinheiro
-  - `purchased`: comprado (some com uma animação sutil)
+  - `purchased`: comprado (some permanentemente, mesmo após recarregar a página)
 
 ### Tipos de efeitos suportados
 
@@ -60,7 +60,7 @@ Os Feeds são cartões únicos que aparecem na coluna da direita quando você cu
 - `click_multiplier`: multiplica o valor por clique
 - `click_sum`: adiciona valor fixo ao clique
 
-Internamente, a produção total considera somas e multiplicadores, tanto para clique quanto para capy/s, garantindo que diferentes Feeds possam se combinar.
+Internamente, a produção total considera somas e multiplicadores, tanto para clique quanto para capy/s, garantindo que diferentes Feeds possam se combinar e criar estratégias variadas.
 
 ### Requisitos possíveis (qualquer combinação)
 
@@ -96,10 +96,12 @@ Os Feeds ficam em `Assets/scripts/data/config.json`. Exemplo resumido:
 
 ## Salvamento e continuidade
 
-- Salvamento automático a cada 1 segundo
-- Persistimos: capys, upgrades, Capivarias posicionadas, Feeds comprados e Feeds desbloqueados
-- O jogo detecta e limpa saves corrompidos para evitar travamentos
-- Para resetar manualmente: no `init()` há uma linha comentada para apagar o save e recarregar a página
+- **Salvamento híbrido**:
+  - Automático a cada 1 segundo
+  - Imediato após cada compra (upgrades, Feeds)
+- **Dados persistidos**: capys, upgrades, Capivarias posicionadas, Feeds comprados, Feeds desbloqueados, multiplicador de compra (x1/x10/x100)
+- **Proteção contra corrupção**: o jogo detecta e limpa saves corrompidos automaticamente
+- **Reset manual**: no `init()` há uma linha comentada para apagar o save e recarregar a página
 
 ## Tecnologias Utilizadas
 

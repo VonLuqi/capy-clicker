@@ -19,8 +19,8 @@
   "feeds": [
     {
     "id": "feed_production_001",
-    "name": "Capivárias Turbinadas",
-    "description": "Aumenta a produção das capivárias em 50%",
+    "name": "Ração Energética Premium",
+    "description": "Ração especial que aumenta a produtividade das capivárias em 50%. Seus bichinhos vão trabalhar com muito mais energia!",
     "basePrice": 250,
     "effect": {
       "type": "production_multiplier",
@@ -36,9 +36,9 @@
     },
     {
     "id": "feed_click_001",
-    "name": "Click Turbinado",
-    "description": "Aumenta o poder de click em 50%",
-    "basePrice": 250,
+    "name": "Luvas de Carinho Mágicas",
+    "description": "Luvas encantadas que tornam seus cliques 50% mais eficientes. Cada carinho vale mais capivaras!",
+    "basePrice": 150,
     "effect": {
       "type": "click_multiplier",
       "value": 0.5
@@ -47,6 +47,30 @@
     "requirements": {
       "minCapyCount": 0,
       "qntCapivarias": 0,
+      "qntClickUpgrade": 1,
+      "feedsPurchased": ["feed_production_001"]
+    }
+    },
+    {
+    "id": "feed_production_002",
+    "name": "Capivaria Motivadora",
+    "description": "Uma capivária especial que incentiva as outras, gerando +2 capys/s adicionais constantes para sua fazenda!",
+    "basePrice": 1000,
+    "effect": {
+      "type": "production_sum",
+      "value": 2
+    },
+    "image": "./Assets/images/feeds/01.webp",
+    "capivariaEspecial": {
+      "image": "./Assets/images/capivarias/capivariaMotivadora.png",
+      "size": 40,
+      "position": "top-center",
+      "animation": "float",
+      "glowColor": "gold"
+    },
+    "requirements": {
+      "minCapyCount": 0,
+      "qntCapivarias": 20,
       "qntClickUpgrade": 1,
       "feedsPurchased": ["feed_production_001"]
     }
@@ -61,6 +85,9 @@
       "./Assets/images/capivarias/02.png",
       "./Assets/images/capivarias/03.png",
       "./Assets/images/capivarias/04.png",
+      "./Assets/images/capivarias/05.png",
+      "./Assets/images/capivarias/06.png",
+      "./Assets/images/capivarias/07.png",
       "./Assets/images/capivarias/gold.png"
     ],
     "shinyChance": 50,

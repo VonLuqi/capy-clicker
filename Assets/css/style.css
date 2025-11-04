@@ -61,11 +61,10 @@ main .board .capivarias_container
   border-radius: var(--gap);
 
   position: relative;
-  overflow: hidden;
   overflow-x: auto;
 }
 
-main .board .capivarias_container img
+main .board .capivarias_container img:not(.special-capivaria)
 {
   position: absolute;
   width: 25px;
@@ -82,6 +81,24 @@ main .board .capivarias_container img
 
   to {
     transform: scale(1) translateY(0);
+  }
+}
+
+.special-capivaria
+{
+  position: absolute;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100%
+  {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  50%
+  {
+    transform: translateX(-50%) translateY(-10px);
   }
 }
 
