@@ -43,7 +43,7 @@
       "type": "click_multiplier",
       "value": 0.5
     },
-    "image": "./Assets/images/feeds/01.webp",
+    "image": "./Assets/images/feeds/02.jpg",
     "requirements": {
       "minCapyCount": 0,
       "qntCapivarias": 0,
@@ -60,7 +60,7 @@
       "type": "production_sum",
       "value": 2
     },
-    "image": "./Assets/images/feeds/01.webp",
+    "image": "./Assets/images/feeds/capivariaMotivadora.png",
     "capivariaEspecial": {
       "image": "./Assets/images/capivarias/capivariaMotivadora.png",
       "size": 40,
@@ -73,6 +73,30 @@
       "qntCapivarias": 20,
       "qntClickUpgrade": 1,
       "feedsPurchased": ["feed_production_001"]
+    }
+    },
+    {
+    "id": "feed_production_003",
+    "name": "Capivaria 4K",
+    "description": "Uma capivária especial que transcende o full hd, gerando +10 capys/s adicionais constantes para sua fazenda!",
+    "basePrice": 10000,
+    "effect": {
+      "type": "production_sum",
+      "value": 10
+    },
+    "image": "./Assets/images/feeds/capivaria4K.png",
+    "capivariaEspecial": {
+      "image": "./Assets/images/capivarias/capivariaMotivadora.png",
+      "size": 40,
+      "position": "top-center",
+      "animation": "float",
+      "glowColor": "gold"
+    },
+    "requirements": {
+      "minCapyCount": 0,
+      "qntCapivarias": 40,
+      "qntClickUpgrade": 0,
+      "feedsPurchased": ["feed_production_002"]
     }
     }
   ],
