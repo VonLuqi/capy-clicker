@@ -86,7 +86,7 @@
     },
     "image": "./Assets/images/feeds/capivaria4K.png",
     "capivariaEspecial": {
-      "image": "./Assets/images/capivarias/capivariaMotivadora.png",
+      "image": "./Assets/images/capivarias/capivaria4K.png",
       "size": 40,
       "position": "top-center",
       "animation": "float",

@@ -27,7 +27,7 @@ aside .action
 aside .capy
 {
   aspect-ratio: 1;
-  width: 100%;
+  width: 70%;
 
   transition: transform 100ms ease;
 }
@@ -41,6 +41,39 @@ aside .qntCapy
 {
   font-size: 1.5rem;
   font-weight: 900;
+}
+
+.capy-particle
+{
+  left: 0;
+  top: 0;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.8) rotate(0deg);
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,.25));
+  pointer-events: none;
+  z-index: 200;
+  will-change: transform, opacity;
+}
+
+.capy-particle--animate
+{
+  animation-name: capy-pop;
+  animation-timing-function: cubic-bezier(.2,.7,.2,1);
+  animation-fill-mode: forwards;
+}
+
+@keyframes capy-pop {
+  0% {
+    opacity: 0;
+    transform: translate(calc(-50%), calc(-50%)) scale(0.6) rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1) rotate(var(--rot));
+  }
 }
 
 main .board
@@ -64,6 +97,43 @@ main .board .capivarias_container
   overflow-x: auto;
 }
 
+.special-belt
+{
+  position: absolute;
+  top: var(--gap);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  pointer-events: none;
+}
+
+.special-belt .special-capivaria
+{
+  pointer-events: auto;
+  width: 40px;
+  aspect-ratio: 1;
+}
+
+@keyframes float {
+  0%, 100%
+  {
+    transform: translateY(0);
+  }
+
+  50%
+  {
+    transform: translateY(-10px);
+  }
+}
+
+.special-belt .special-capivaria.float
+{
+  animation: float 3s ease-in-out infinite;
+  will-change: transform;
+}
+
 main .board .capivarias_container img:not(.special-capivaria)
 {
   position: absolute;
@@ -81,24 +151,6 @@ main .board .capivarias_container img:not(.special-capivaria)
 
   to {
     transform: scale(1) translateY(0);
-  }
-}
-
-.special-capivaria
-{
-  position: absolute;
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100%
-  {
-    transform: translateX(-50%) translateY(0);
-  }
-
-  50%
-  {
-    transform: translateX(-50%) translateY(-10px);
   }
 }
 

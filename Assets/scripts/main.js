@@ -3,6 +3,7 @@ import { UpgradeManager } from './modules/upgrades.js'
 import { UI } from './modules/ui.js'
 import { CapivariasManager } from './modules/capivarias.js'
 import { FeedsManager } from './modules/feeds.js'
+import { spawnCapyParticlesAtPointer } from './modules/animations.js'
 
 async function init() {
   // Para resetar o save, descomente e comente novamente a linha abaixo
@@ -97,6 +98,8 @@ async function init() {
           addSpecialCapivaria(feed.capivariaEspecial, feed.id)
         }
       })
+
+      restaggerSpecials(150)
     }
 
     if (saveData.upgradesOwned) {
@@ -181,42 +184,71 @@ async function init() {
 
   updateFeedsUI()
 
+  function ensureSpecialBelt() {
+    const container = document.querySelector('.capivarias_container')
+    let belt = container.querySelector('.special-belt')
+
+    if (!belt) {
+      belt = document.createElement('div')
+      belt.className = 'special-belt'
+      container.appendChild(belt)
+    }
+
+    return belt
+  }
+
+  function restaggerSpecials(stepMs = 150) {
+    const belt = document.querySelector('.special-belt')
+
+    if (!belt) return
+
+    const specials = belt.querySelectorAll('.special-capivaria')
+
+    specials.forEach((el, idx) => {
+      el.style.animationDelay = `-${idx * stepMs}ms`
+    })
+  }
+
   function addSpecialCapivaria(capivariaConfig, feedId) {
     if (document.querySelector(`.special-capivaria[data-feed-id="${feedId}"]`)) return;
-    const container = document.querySelector('.capivarias_container');
+
+    const belt = ensureSpecialBelt()
     const specialCapy = document.createElement('img');
     specialCapy.src = capivariaConfig.imagem || capivariaConfig.image;
     specialCapy.draggable = false;
     specialCapy.classList.add('special-capivaria');
     specialCapy.dataset.feedId = feedId;
 
-    const pos = capivariaConfig.posicao || capivariaConfig.position;
-    if (pos) {
-      if (pos.top) specialCapy.style.top = pos.top;
-      if (pos.left) specialCapy.style.left = pos.left;
-      if (typeof pos === 'string' && pos === 'top-center') {
-        specialCapy.style.top = 'var(--gap)';
-        specialCapy.style.left = '50%';
-      }
-    }
-
     const tam = capivariaConfig.tamanho || capivariaConfig.size;
     if (tam) {
-      if (tam.width) specialCapy.style.width = tam.width;
-      if (tam.height) specialCapy.style.height = tam.height;
-      if (typeof tam === 'number' || typeof tam === 'string') {
-        specialCapy.style.width = `${tam}px`;
-        specialCapy.style.height = `${tam}px`;
+      if (typeof tam === 'number') {
+        specialCapy.style.width = `${tam}px`
+        specialCapy.style.height = `${tam}px`
+      } else if (typeof tam === 'string') {
+        specialCapy.style.width = tam
+        specialCapy.style.height = tam
+      } else if (tam.width || tam.height) {
+        if (tam.width) specialCapy.style.width = tam.width
+        if (tam.height) specialCapy.style.height = tam.height
       }
     }
 
-    specialCapy.style.zIndex = '100';
-
     if (capivariaConfig.glowColor) {
-      specialCapy.style.filter = `drop-shadow(0 0 16px ${capivariaConfig.glowColor})`;
+      specialCapy.style.filter = `drop-shadow(0 0 16px ${capivariaConfig.glowColor})`
     }
 
-    container.appendChild(specialCapy);
+    if ((capivariaConfig.animacao || capivariaConfig.animation) === 'float') {
+      specialCapy.classList.add('float')
+    }
+
+    specialCapy.style.zIndex = '100'
+
+    const index = belt.querySelectorAll('.special-capivaria').length
+    specialCapy.style.animationDelay = `-${index * 150}ms`
+    
+    belt.appendChild(specialCapy)
+
+    restaggerSpecials(150)
   }
 
   function handleFeedPurchase(feedId) {
@@ -282,9 +314,23 @@ async function init() {
     }
   }
 
-  document.querySelector('.capy').addEventListener('click', () => {
+  document.querySelector('.capy').addEventListener('click', (e) => {
     game.click()
     ui.updateCapyCount(game.capyCount)
+
+    const effective = Math.max(1, Math.round(
+      (Number.isFinite(game.clickValue) ? game.clickValue : 1) * (Number.isFinite(game.clickModPercent) ? game.clickModPercent : 1) +
+      (Number.isFinite(game.clickModSum) ? game.clickModSum : 0)
+    ))
+    const count = Math.min(effective, 12)
+
+    spawnCapyParticlesAtPointer(e, {
+      count: Math.min(effective, 8),
+      sprite: './Assets/images/capivarias/01.png',
+      size: 25,
+      spread: 120,
+      duration: 950
+    })
 
     if (firstClick) {
       currentActionText = 'continue juntando capivaras!'
