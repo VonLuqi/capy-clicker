@@ -1,5 +1,5 @@
 {
-  "valuePerClick": 1,
+  "valuePerClick": 10000000,
   "upgrades": [
     {
       "id": "capivarias",
@@ -114,6 +114,30 @@
       "qntCapivarias": 50,
       "qntClickUpgrade": 0,
       "feedsPurchased": ["feed_production_001"]
+    }
+    },
+    {
+    "id": "feed_production_004",
+    "name": "Capivaria Bolt",
+    "description": "A capivaria mais rápida do reino animal. Com sua velocidade ela inspira as outras capivarias a trabalhar 50% mais.",
+    "basePrice": 15000,
+    "effect": {
+      "type": "production_multiplier",
+      "value": 0.5
+    },
+    "image": "./Assets/images/feeds/CapiBolt.png",
+    "capivariaEspecial": {
+      "image": "./Assets/images/capivarias/CapiBolt.png",
+      "size": 40,
+      "position": "top-center",
+      "animation": "float",
+      "glowColor": "gold"
+    },
+    "requirements": {
+      "minCapyCount": 0,
+      "qntCapivarias": 50,
+      "qntClickUpgrade": 0,
+      "feedsPurchased": ["feed_production_003"]
     }
     }
   ],
