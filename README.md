@@ -2,7 +2,7 @@
 
 # CAPY CLICKER
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![maintenance](https://img.shields.io/badge/maintenance-active-green.svg)](https://github.com/VonLuqi/capy-clicker) [![version](https://img.shields.io/badge/version-1.2.0-blue)](https://github.com/VonLuqi/capy-clicker)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![maintenance](https://img.shields.io/badge/maintenance-active-green.svg)](https://github.com/VonLuqi/capy-clicker) [![version](https://img.shields.io/badge/version-1.3.0-blue)](https://github.com/VonLuqi/capy-clicker)
 
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML) [![CSS](https://img.shields.io/badge/CSS-563d7c?&style=flat&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS) [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
@@ -47,22 +47,39 @@ Os Feeds são cartões únicos que aparecem na coluna da direita quando você cu
 
 Alguns feeds podem desbloquear **capivárias especiais** que aparecem no topo do gramado:
 
-- Ficam posicionadas em uma "faixa" centralizada horizontalmente
-- Cada uma tem animação flutuante com delay defasado (efeito "onda")
-- Podem ter brilho personalizado (glow), tamanho e sprite únicos
-- São restauradas automaticamente ao recarregar o jogo
+- **Layout Automático Inteligente (NOVO)**: Múltiplas capivárias especiais são automaticamente distribuídas no centro do gramado sem sobreposição
+- **Posicionamento Dinâmico**: O sistema calcula automaticamente espaçamento baseado no tamanho do container e das capivárias
+- **Animação Flutuante**: Cada capivária tem animação `float` independente com efeito visual suave
+- **Persistência Completa**: Posição e layout são restaurados automaticamente ao recarregar o jogo
+- **Suporte a Customização**: Cada capivária pode ter brilho (glow), tamanho e sprite únicos
 
 Para configurar no `config.json`, adicione um objeto `capivariaEspecial` ao feed:
 
 ```json
 "capivariaEspecial": {
-  "image": "./Assets/images/capivarias/capivariaMotivadora.png",
-  "size": 40,
+  "imagem": "./Assets/images/capivarias/capivariaMotivadora.png",
+  "tamanho": {
+    "width": "40px",
+    "height": "40px"
+  },
+  "posicao": {
+    "top": "var(--gap)",
+    "left": "50%"
+  },
   "position": "top-center",
-  "animation": "float",
+  "animacao": "float",
   "glowColor": "gold"
 }
 ```
+
+**Campos suportados**:
+
+- `imagem` ou `image`: caminho para a sprite
+- `tamanho` ou `size`: objeto `{width, height}` ou número (px)
+- `posicao` ou `position`: objeto `{top, left}` ou string `"top-center"`
+- `glowColor`: cor do brilho (ex: `"gold"`, `"#FFD700"`, `"rgba(255,215,0,0.8)"`)
+
+O sistema detecta automaticamente capivárias com `position: "top-center"` e as agrupa para distribuição centralizada.
 
 ### Como funcionam
 
@@ -122,7 +139,7 @@ Os Feeds ficam em `Assets/scripts/data/config.json`. Exemplo resumido:
 - **Salvamento híbrido**:
   - Automático a cada 1 segundo
   - Imediato após cada compra (upgrades, Feeds)
-- **Dados persistidos**: capys, upgrades, Capivarias posicionadas, Feeds comprados, Feeds desbloqueados, multiplicador de compra (x1/x10/x100)
+- **Dados persistidos**: capys, upgrades, Capivarias posicionadas, Feeds comprados, Feeds desbloqueados, **Capivárias Especiais com layout**, multiplicador de compra (x1/x10/x100)
 - **Proteção contra corrupção**: o jogo detecta e limpa saves corrompidos automaticamente
 - **Reset manual**: no `init()` há uma linha comentada para apagar o save e recarregar a página
 
@@ -146,10 +163,11 @@ Variáveis principais:
 
 ### Animação das Capivárias Especiais
 
-- Efeito flutuante vertical suave (`float`)
-- Cada capivária tem delay de animação escalonado (150ms entre elas)
-- Suporte a brilho customizado (drop-shadow)
-- Layout automático centralizado e responsivo (Flexbox)
+- **Efeito flutuante vertical suave (`float`)** com animação CSS
+- **Layout Automático Responsivo**: Sistema inteligente que distribui múltiplas capivárias especiais horizontalmente no centro do gramado
+- **Evita Sobreposição**: Calcula automaticamente o espaçamento baseado no tamanho do container e largura das capivárias
+- **Suporte a Brilho Customizado**: `drop-shadow` configurável para cada capivária
+- **Agrupamento por Posição**: Capivárias com `position: "top-center"` são agrupadas e redistribuídas automaticamente
 
 ## Estrutura do Projeto
 
